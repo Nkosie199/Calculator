@@ -1,7 +1,13 @@
-#Calculator app
+# Calculator app
+
+## Prerequsites
+Node package manager (npm)
 
 To install:
-1. npm install
-
+```bash
+npm install
+```
 To run:
-1. npm start
+```bash
+npm start
+```
