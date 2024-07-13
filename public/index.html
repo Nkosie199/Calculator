@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+<div id="calculator">
+    <div id="history"></div>
+    <input type="text" id="current" disabled>
+    <div class="row">
+        <div class="column">
+            <button class="button2" onclick="toggleHistory()"><i class="fa-solid fa-clock"></i></button>
+            <button class="button" onclick="buttonClick('7')">7</button>
+            <button class="button" onclick="buttonClick('4')">4</button>
+            <button class="button" onclick="buttonClick('1')">1</button>
+            <button class="button" onclick="deleteLast()"><i class="fa-solid fa-delete-left"></i></button>
+        </div>
+        <div class="column">
+            <button class="button2" onclick="clearCurrent()">AC</button>
+            <button class="button" onclick="buttonClick('8')">8</button>
+            <button class="button" onclick="buttonClick('5')">5</button>
+            <button class="button" onclick="buttonClick('2')">2</button>
+            <button class="button" onclick="buttonClick('0')">0</button>
+        </div>
+        <div class="column">
+            <button class="button2" onclick="buttonClick('*')">*</button>
+            <button class="button" onclick="buttonClick('9')">9</button>
+            <button class="button" onclick="buttonClick('6')">6</button>
+            <button class="button" onclick="buttonClick('3')">3</button>
+            <button class="button" onclick="buttonClick('.')">.</button>
+        </div>
+        <div class="column">
+            <button class="button2" onclick="buttonClick('/')">/</button>
+            <button class="button2" onclick="buttonClick('+')">+</button>
+            <button class="button2" onclick="buttonClick('-')">-</button>
+            <button id="equalsbutton" class="button" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+    <div id="historyOverlay" class="overlay">
+        <button class="close-btn" onclick="toggleHistory()">x</button>
+        <div id="historyContent" class="overlay-content"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.0.0/math.min.js"></script>
+    <script src="./index.js"></script>
+</body>
+</html>
