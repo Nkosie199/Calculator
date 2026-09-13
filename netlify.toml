@@ -2,6 +2,12 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  # Pinned explicitly: Vite 8 requires Node ^20.19.0 || >=22.12.0, and Netlify's unpinned
+  # platform default doesn't satisfy that, so the build crashed immediately on every deploy
+  # without this. Never leave this unpinned again — bump it deliberately, not by omission.
+  NODE_VERSION = "22"
+
 [[headers]]
   for = "/*"
   [headers.values]
