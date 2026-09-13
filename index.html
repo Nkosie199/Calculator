@@ -206,22 +206,24 @@
     </section>
 
     <section class="mode-panel panel" data-mode="matrix" hidden aria-label="Matrix calculator">
-      <div class="matrix-editor">
-        <h2>Matrix A</h2>
-        <div class="form-row">
-          <label>Rows <input id="matrixARows" type="number" min="1" max="6" value="2" /></label>
-          <label>Cols <input id="matrixACols" type="number" min="1" max="6" value="2" /></label>
+      <div class="matrix-editors">
+        <div class="matrix-editor">
+          <h2>Matrix A</h2>
+          <div class="form-row">
+            <label>Rows <input id="matrixARows" type="number" min="1" max="6" value="2" /></label>
+            <label>Cols <input id="matrixACols" type="number" min="1" max="6" value="2" /></label>
+          </div>
+          <div id="matrixAGrid" class="matrix-grid"></div>
         </div>
-        <div id="matrixAGrid" class="matrix-grid"></div>
-      </div>
 
-      <div class="matrix-editor">
-        <h2>Matrix B</h2>
-        <div class="form-row">
-          <label>Rows <input id="matrixBRows" type="number" min="1" max="6" value="2" /></label>
-          <label>Cols <input id="matrixBCols" type="number" min="1" max="6" value="2" /></label>
+        <div class="matrix-editor">
+          <h2>Matrix B</h2>
+          <div class="form-row">
+            <label>Rows <input id="matrixBRows" type="number" min="1" max="6" value="2" /></label>
+            <label>Cols <input id="matrixBCols" type="number" min="1" max="6" value="2" /></label>
+          </div>
+          <div id="matrixBGrid" class="matrix-grid"></div>
         </div>
-        <div id="matrixBGrid" class="matrix-grid"></div>
       </div>
 
       <div class="button-row">

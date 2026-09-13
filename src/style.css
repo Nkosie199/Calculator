@@ -49,12 +49,19 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Segoe UI', Arial, sans-serif;
-  padding: 24px 12px;
+  padding: clamp(12px, 4vw, 32px);
 }
 
+/*
+ * #app's width is fluid (not a fixed mobile-sized box): it fills the available viewport up
+ * to a cap, and the cap itself differs by content shape rather than by a screen-size guess.
+ * Standard/simple panels stay keypad-width even on huge monitors (a wider numeric keypad
+ * isn't more usable, just blanker) while data-dense modes (graph, matrix, stats, equations,
+ * calculus) are allowed to genuinely use desktop-class width for their grids/canvases/forms.
+ */
 #app {
   width: 100%;
-  max-width: 380px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -62,7 +69,7 @@ body {
 }
 
 #app.wide {
-  max-width: 640px;
+  max-width: clamp(460px, 92vw, 1100px);
 }
 
 .topbar {
@@ -183,10 +190,8 @@ body {
 
 .mode-tabs {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-  scrollbar-width: thin;
 }
 
 .mode-tab {
@@ -314,10 +319,17 @@ body {
   border-radius: 8px;
 }
 
+.matrix-editors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
 .matrix-editor {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1 1 220px;
 }
 
 .graph-functions {
