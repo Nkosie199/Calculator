@@ -14,6 +14,19 @@
   --error: #d1364b;
   --shadow: rgba(0, 0, 0, 0.12);
   --overlay-bg: rgba(20, 18, 30, 0.82);
+  --overlay-text: #ffffff;
+  --overlay-text-muted: rgba(255, 255, 255, 0.7);
+  --overlay-text-faint: rgba(255, 255, 255, 0.6);
+  --overlay-border: rgba(255, 255, 255, 0.12);
+  --overlay-hover: rgba(255, 255, 255, 0.06);
+  /*
+   * Fixed (not redefined per theme) — used wherever small text sits directly on a purple fill
+   * or a white/light surface. --accent is deliberately lighter in dark mode so it reads well as
+   * large fills and outlines there, but that same lighter purple fails WCAG AA (4.5:1) as a
+   * background under small white text, or as small text on a light surface. --accent-strong is
+   * verified >8:1 against white in both directions, so it's the one to use for that specific job.
+   */
+  --accent-strong: #4a1fd6;
   color-scheme: light;
 }
 
@@ -38,6 +51,14 @@
 
 * {
   box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /*
@@ -108,8 +129,8 @@ body {
   border: none;
   background: var(--surface);
   color: var(--text);
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -139,7 +160,10 @@ body {
 }
 
 .welcome-banner {
-  background: linear-gradient(135deg, var(--accent), #9b7bff);
+  /* Both stops use --accent-strong-family purples (verified >6:1 against white text at every
+     point in between), not the theme's --accent, which is deliberately lighter in dark mode and
+     would drop white text below WCAG AA here. */
+  background: linear-gradient(135deg, var(--accent-strong), #6236ff);
   color: #ffffff;
   border-radius: 16px;
   padding: 16px 18px;
@@ -158,7 +182,7 @@ body {
 .welcome-banner .pill {
   align-self: flex-start;
   background: #ffffff;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .welcome-content {
@@ -239,10 +263,11 @@ body {
   border-radius: 999px;
   background: var(--key-op-bg);
   color: var(--key-op-text);
-  padding: 6px 12px;
+  padding: 9px 14px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  min-height: 24px;
 }
 
 .chip:hover {
@@ -325,7 +350,9 @@ body {
 }
 
 .mode-tab[aria-selected='true'] {
-  background: var(--accent);
+  /* --accent-strong, not --accent: at 13px/600 this text is too small to qualify for the relaxed
+     "large text" contrast threshold, and dark mode's lighter --accent fails the normal-text one. */
+  background: var(--accent-strong);
   color: var(--accent-contrast);
 }
 
@@ -524,6 +551,8 @@ body {
   font-family: inherit;
 }
 
+/* Safe to suppress: #display has tabindex="-1" (it's a read-only live-announcing display, not
+   an interactive control), so this only ever affects a stray mouse click, never keyboard focus. */
 #display:focus {
   outline: none;
 }
@@ -619,7 +648,7 @@ body {
   position: fixed;
   inset: 0;
   background: var(--overlay-bg);
-  color: #fff;
+  color: var(--overlay-text);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -642,24 +671,37 @@ body {
 .overlay-content {
   flex: 1;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--overlay-hover);
   border-radius: 12px;
   padding: 12px;
 }
 
 .history-entry {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--overlay-border);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
   padding: 10px 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .history-entry:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--overlay-hover);
+}
+
+.history-entry:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
 }
 
 .history-expr {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--overlay-text-muted);
 }
 
 .history-result {
@@ -668,7 +710,7 @@ body {
 }
 
 .history-empty {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--overlay-text-faint);
   text-align: center;
   padding: 40px 0;
 }

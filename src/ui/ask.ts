@@ -86,7 +86,8 @@ function submit(): void {
 export function askQuestion(question: string): void {
   askInput.value = question;
   submit();
-  askInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  askInput.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
 }
 
 let initialized = false;

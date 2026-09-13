@@ -118,7 +118,7 @@
     <main id="calculator" class="mode-panel" data-mode="standard" aria-label="Calculator">
       <p class="hint">Tap away just like a normal calculator! Curious about the purple buttons (sin, log, &pi;...)? Those unlock the fancy stuff — try <code>2&times;&pi;</code> or <code>sin(30)</code> and see what happens.</p>
       <div class="display-row">
-        <input id="display" type="text" readonly aria-live="polite" aria-label="Current calculation" value="0" />
+        <input id="display" type="text" readonly tabindex="-1" aria-live="polite" aria-label="Current calculation" value="0" />
       </div>
       <p id="errorMessage" class="error-message" role="alert"></p>
 
@@ -454,9 +454,9 @@
       <p id="dateAddResult" class="readout"></p>
     </section>
 
-    <div id="historyOverlay" class="overlay" hidden>
+    <div id="historyOverlay" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="historyHeading">
       <div class="overlay-header">
-        <h2>History</h2>
+        <h2 id="historyHeading">History</h2>
         <button id="clearHistoryButton" class="pill" type="button">Clear</button>
         <button id="closeHistoryButton" class="icon-button" type="button" aria-label="Close history">&times;</button>
       </div>

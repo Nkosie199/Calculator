@@ -34,10 +34,11 @@ function renderHistory(entries: HistoryEntry[]): void {
   }
   historyContent.innerHTML = '';
   for (const entry of entries) {
-    const row = document.createElement('div');
+    // A real <button>, not a div+role="button", so Enter/Space activate it for free — no
+    // hand-rolled keydown handler needed to match native button keyboard semantics.
+    const row = document.createElement('button');
+    row.type = 'button';
     row.className = 'history-entry';
-    row.tabIndex = 0;
-    row.setAttribute('role', 'button');
 
     const expr = document.createElement('div');
     expr.className = 'history-expr';
@@ -74,17 +75,44 @@ function render(): void {
   );
 }
 
+function getFocusableInOverlay(): HTMLElement[] {
+  return Array.from(historyOverlay.querySelectorAll<HTMLElement>('button, [href], input, [tabindex]:not([tabindex="-1"])')).filter(
+    (el) => !el.hasAttribute('disabled'),
+  );
+}
+
+function trapFocusInOverlay(event: KeyboardEvent): void {
+  if (event.key !== 'Tab') return;
+  const focusable = getFocusableInOverlay();
+  if (focusable.length === 0) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 function openHistory(): void {
   // Always re-read from storage rather than the CalculatorState's cached copy — the Ask bar
   // (and potentially other modes) write history entries directly, so the cache can be stale.
   renderHistory(loadHistory());
   historyOverlay.hidden = false;
   historyToggle.setAttribute('aria-expanded', 'true');
+  historyOverlay.addEventListener('keydown', trapFocusInOverlay);
+  closeHistoryButton.focus();
 }
 
 function closeHistory(): void {
+  if (historyOverlay.hidden) return;
   historyOverlay.hidden = true;
   historyToggle.setAttribute('aria-expanded', 'false');
+  historyOverlay.removeEventListener('keydown', trapFocusInOverlay);
+  historyToggle.focus();
 }
 
 keypad.addEventListener('click', (event) => {
