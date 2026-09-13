@@ -23,34 +23,76 @@
       </button>
     </header>
 
-    <p class="app-tagline">Your go-to place for any math question — type it below, or explore a tool</p>
+    <p class="app-tagline">Meet Digit, your math buddy — ask anything, or dive into a tool below</p>
 
     <div id="welcomeBanner" class="welcome-banner" hidden>
-      <p>
-        <strong>New here? Here's the idea:</strong> type any question in the box below and this app
-        figures out what to do with it — arithmetic, algebra, graphs, all of it. Or explore a tab
-        yourself: <strong>Graph</strong> draws pictures of equations, <strong>Equations</strong> and
-        <strong>Calculus</strong> solve and analyze them, <strong>Matrix</strong>, <strong>Stats</strong>,
-        and <strong>Complex</strong> cover those topics, <strong>Base-N</strong> is binary/hex,
-        <strong>Units</strong> converts things, and <strong>Date</strong> does calendar math. Every tool
-        shows an example so you can just try it. Nothing you type ever leaves your device.
-      </p>
-      <button id="dismissWelcome" class="pill" type="button">Got it, let's go!</button>
+      <div class="welcome-content">
+        <div class="mascot mascot-large" aria-hidden="true">
+          <svg viewBox="0 0 160 160" width="72" height="72">
+            <circle cx="80" cy="84" r="76" fill="rgba(255,255,255,0.16)" />
+            <path d="M42 95 Q22 80 18 53" stroke="#ffffff" stroke-width="9" stroke-linecap="round" fill="none" />
+            <circle cx="18" cy="50" r="8" fill="#ffffff" />
+            <path d="M118 105 Q137 113 141 130" stroke="#ffffff" stroke-width="9" stroke-linecap="round" fill="none" />
+            <circle cx="142" cy="133" r="8" fill="#ffffff" />
+            <rect x="35" y="28" width="90" height="112" rx="26" fill="#ffffff" />
+            <rect x="47" y="42" width="66" height="38" rx="10" fill="#6236ff" />
+            <circle cx="68" cy="61" r="6" fill="#ffffff" />
+            <circle cx="92" cy="61" r="6" fill="#ffffff" />
+            <circle cx="70" cy="59" r="1.6" fill="#6236ff" />
+            <circle cx="94" cy="59" r="1.6" fill="#6236ff" />
+            <path d="M66 69 Q80 79 94 69" stroke="#ffffff" stroke-width="3" fill="none" stroke-linecap="round" />
+            <circle cx="52" cy="66" r="3.5" fill="#ff9bc0" opacity="0.7" />
+            <circle cx="108" cy="66" r="3.5" fill="#ff9bc0" opacity="0.7" />
+            <circle cx="58" cy="96" r="6" fill="#e4dcff" />
+            <circle cx="80" cy="96" r="6" fill="#e4dcff" />
+            <circle cx="102" cy="96" r="6" fill="#e4dcff" />
+            <circle cx="58" cy="115" r="6" fill="#e4dcff" />
+            <circle cx="80" cy="115" r="6" fill="#e4dcff" />
+            <circle cx="102" cy="115" r="6" fill="#e4dcff" />
+          </svg>
+        </div>
+        <p>
+          <strong>Hi, I'm Digit! 👋</strong> Type any question in the box below, in plain English, and
+          I'll figure out what to do with it. Or explore a tab yourself: <strong>Graph</strong> draws
+          pictures of equations, <strong>Equations</strong> and <strong>Calculus</strong> crack them
+          open, <strong>Matrix</strong>, <strong>Stats</strong>, and <strong>Complex</strong> cover
+          those topics, <strong>Base-N</strong> speaks binary and hex, <strong>Units</strong> converts
+          anything to anything, and <strong>Date</strong> does calendar math. Every tool shows you an
+          example, so just dive in and play around — I never send anything you type anywhere else.
+        </p>
+      </div>
+      <button id="dismissWelcome" class="pill" type="button">Let's do this!</button>
     </div>
 
     <div class="ask-bar">
       <form id="askForm" class="ask-form" role="search">
+        <div class="mascot mascot-small" aria-hidden="true">
+          <svg viewBox="0 0 160 160" width="36" height="36">
+            <circle cx="80" cy="84" r="76" fill="var(--surface-alt)" />
+            <path d="M42 95 Q22 80 18 53" stroke="var(--accent)" stroke-width="10" stroke-linecap="round" fill="none" />
+            <circle cx="18" cy="50" r="9" fill="var(--accent)" />
+            <rect x="35" y="28" width="90" height="112" rx="26" fill="var(--accent)" />
+            <rect x="47" y="42" width="66" height="38" rx="10" fill="#ffffff" />
+            <circle cx="68" cy="61" r="6" fill="#231b3d" />
+            <circle cx="92" cy="61" r="6" fill="#231b3d" />
+            <circle cx="70" cy="59" r="1.8" fill="#ffffff" />
+            <circle cx="94" cy="59" r="1.8" fill="#ffffff" />
+            <path d="M66 69 Q80 79 94 69" stroke="#231b3d" stroke-width="3" fill="none" stroke-linecap="round" />
+            <circle cx="52" cy="66" r="3.5" fill="#ff9bc0" opacity="0.8" />
+            <circle cx="108" cy="66" r="3.5" fill="#ff9bc0" opacity="0.8" />
+          </svg>
+        </div>
         <input
           id="askInput"
           type="text"
-          placeholder="Ask anything — derivative of x^2, 5 km in miles, solve x^2-4=0..."
+          placeholder="Ask me anything — derivative of x^2? 5 km in miles? solve x^2-4=0?"
           aria-label="Ask a math question"
           autocomplete="off"
         />
         <button class="pill" type="submit">Ask</button>
       </form>
       <div class="ask-examples">
-        <span class="ask-examples-label">Try:</span>
+        <span class="ask-examples-label">Try me:</span>
         <button type="button" class="chip" data-example="2 + 2 * 3">2 + 2 &times; 3</button>
         <button type="button" class="chip" data-example="derivative of x^2">derivative of x^2</button>
         <button type="button" class="chip" data-example="5 km in miles">5 km in miles</button>
@@ -74,7 +116,7 @@
     </nav>
 
     <main id="calculator" class="mode-panel" data-mode="standard" aria-label="Calculator">
-      <p class="hint">Tap the keys like a normal calculator. The purple buttons (sin, log, &pi;...) are for more advanced math — try <code>2&times;&pi;</code> or <code>sin(30)</code>.</p>
+      <p class="hint">Tap away just like a normal calculator! Curious about the purple buttons (sin, log, &pi;...)? Those unlock the fancy stuff — try <code>2&times;&pi;</code> or <code>sin(30)</code> and see what happens.</p>
       <div class="display-row">
         <input id="display" type="text" readonly aria-live="polite" aria-label="Current calculation" value="0" />
       </div>
@@ -129,7 +171,7 @@
     </main>
 
     <section class="mode-panel panel" data-mode="graph" hidden aria-label="Graph">
-      <p class="hint">Type a function of <code>x</code> and watch it get drawn instantly — try <code>x^2</code> or <code>sin(x)</code>. Add more functions to compare them, move your mouse over the graph to read values, or hit "Find roots" to see where the line crosses zero.</p>
+      <p class="hint">Type a function of <code>x</code> and watch it appear like magic — try <code>x^2</code> or <code>sin(x)</code>. Add more functions to compare them, hover over the graph to explore, or hit "Find roots" to see where it crosses zero.</p>
       <div class="graph-functions" id="graphFunctions"></div>
       <button id="graphAddFunction" class="pill" type="button">+ Add function</button>
 
@@ -152,7 +194,7 @@
 
     <section class="mode-panel panel" data-mode="equations" hidden aria-label="Equation solver">
       <h2>Linear: ax + b = 0</h2>
-      <p class="hint">The simplest equations — a straight line crossing zero. <code>2x - 4 = 0</code> means a=2, b=-4.</p>
+      <p class="hint">The simplest kind — just a straight line crossing zero. <code>2x - 4 = 0</code> means a=2, b=-4.</p>
       <div class="form-row">
         <label>a <input id="eqLinearA" type="number" value="1" step="any" /></label>
         <label>b <input id="eqLinearB" type="number" value="0" step="any" /></label>
@@ -161,7 +203,7 @@
       <p id="eqLinearResult" class="readout"></p>
 
       <h2>Quadratic: ax&sup2; + bx + c = 0</h2>
-      <p class="hint">For equations with an x&sup2; in them. <code>x&sup2; - 3x + 2 = 0</code> means a=1, b=-3, c=2 — works even when the answer has an <code>i</code> in it!</p>
+      <p class="hint">For equations with an x&sup2; in them. <code>x&sup2; - 3x + 2 = 0</code> means a=1, b=-3, c=2 — and yes, it still works even when the answer has an <code>i</code> in it!</p>
       <div class="form-row">
         <label>a <input id="eqQuadA" type="number" value="1" step="any" /></label>
         <label>b <input id="eqQuadB" type="number" value="0" step="any" /></label>
@@ -171,7 +213,7 @@
       <p id="eqQuadResult" class="readout"></p>
 
       <h2>Numeric root finder: f(x) = 0</h2>
-      <p class="hint">Doesn't fit the shapes above? Type any equation as f(x) and we'll search for where it crosses zero.</p>
+      <p class="hint">Doesn't fit either shape above? No problem — type any equation as f(x) and I'll hunt down where it crosses zero.</p>
       <div class="form-row">
         <label>f(x) <input id="eqRootFn" type="text" value="x^2 - 4" /></label>
       </div>
@@ -183,7 +225,7 @@
       <p id="eqRootResult" class="readout"></p>
 
       <h2>Linear system</h2>
-      <p class="hint">Solve two or three equations at once, like <code>x + y = 3</code> and <code>x - y = 1</code>.</p>
+      <p class="hint">Got two or three equations at once? Solve them all together, like <code>x + y = 3</code> and <code>x - y = 1</code>.</p>
       <div class="form-row">
         <label>Size
           <select id="eqSystemSize">
@@ -199,7 +241,7 @@
 
     <section class="mode-panel panel" data-mode="calculus" hidden aria-label="Calculus">
       <h2>Differentiate</h2>
-      <p class="hint">Finds the slope — how fast a function is changing at any point. Try <code>x^3 - 2x</code>, or raise "Order" for the 2nd derivative, the 3rd, and so on.</p>
+      <p class="hint">Finds the slope — basically, how fast something is changing. Try <code>x^3 - 2x</code>, or bump up "Order" for the 2nd derivative, the 3rd, and beyond.</p>
       <div class="form-row">
         <label>f(x) <input id="calcDiffFn" type="text" value="x^3 - 2x" /></label>
         <label>Order <input id="calcDiffOrder" type="number" min="1" max="6" value="1" /></label>
@@ -209,7 +251,7 @@
       <p id="calcDiffResult" class="readout"></p>
 
       <h2>Integrate</h2>
-      <p class="hint">The reverse of a derivative — finds the area under a curve. Try <code>sin(x)</code> or <code>x^2</code>.</p>
+      <p class="hint">The reverse of a derivative — it finds the area tucked under a curve. Try <code>sin(x)</code> or <code>x^2</code>.</p>
       <div class="form-row">
         <label>f(x) <input id="calcIntFn" type="text" value="3x^2 - 2x + 1" /></label>
         <button id="calcIntCompute" class="pill" type="button">Integrate</button>
@@ -218,7 +260,7 @@
       <p id="calcIntResult" class="readout"></p>
 
       <h2>Taylor / Maclaurin series</h2>
-      <p class="hint">Approximates a tricky function with a simple polynomial near a point — try <code>sin(x)</code> around center 0.</p>
+      <p class="hint">Turns a tricky function into a simple polynomial that behaves the same near one point — try <code>sin(x)</code> around center 0.</p>
       <div class="form-row">
         <label>f(x) <input id="calcSeriesFn" type="text" value="sin(x)" /></label>
         <label>Center (a) <input id="calcSeriesCenter" type="number" value="0" step="any" /></label>
@@ -278,7 +320,7 @@
 
     <section class="mode-panel panel" data-mode="stats" hidden aria-label="Statistics">
       <h2>Data set</h2>
-      <p class="hint">Paste in a list of numbers to get the mean, median, mode, and more, all at once.</p>
+      <p class="hint">Paste in a list of numbers and I'll work out the mean, median, mode, and more — all at once.</p>
       <textarea id="statsData" rows="3" placeholder="Enter numbers separated by commas, spaces, or new lines">2, 4, 4, 4, 5, 5, 7, 9</textarea>
       <button id="statsCompute" class="pill" type="button">Compute</button>
       <p id="statsError" class="error-message" role="alert"></p>
@@ -296,7 +338,7 @@
     </section>
 
     <section class="mode-panel panel" data-mode="complex" hidden aria-label="Complex numbers">
-      <p class="hint">A complex number has a real part and an imaginary part (the "i"). Combine two of them below, and see the first one's polar form (distance + angle) underneath.</p>
+      <p class="hint">A complex number has a real part and an imaginary part (the "i"). Combine two of them below and watch what happens — plus see the first one's polar form (distance + angle) underneath.</p>
       <div class="form-row">
         <label>a (real) <input id="complexARe" type="number" value="1" step="any" /></label>
         <label>b (imaginary) <input id="complexAIm" type="number" value="2" step="any" /></label>

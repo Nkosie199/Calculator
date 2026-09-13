@@ -128,7 +128,7 @@ function handleSolve(lhs: string, rhs: string | null, angleMode: AngleMode): Que
     const f = compileFunctionOfX(diffExpr, angleMode);
     const roots = findRoots(f, { min: -100, max: 100, steps: 800 });
     if (roots.length === 0) {
-      return fail('No solution found for x between -100 and 100. Try the Equations tab for a custom search range.');
+      return fail("I searched x from -100 to 100 and came up empty — try the Equations tab for a custom range.");
     }
     return ok('Solve (numeric)', roots.map((r) => `x = ${formatNum(r)}`).join(', '));
   } catch (e) {
@@ -223,5 +223,5 @@ export function answerQuery(rawInput: string, angleMode: AngleMode = 'deg'): Que
     // Not a recognized pattern and not a plain expression either.
   }
 
-  return fail(`I don't have a pattern for that yet.`);
+  return fail(`Hmm, I don't know that one yet!`);
 }

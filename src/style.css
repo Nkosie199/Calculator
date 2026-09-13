@@ -161,6 +161,25 @@ body {
   color: var(--accent);
 }
 
+.welcome-content {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.mascot {
+  flex: none;
+  display: flex;
+}
+
+.mascot-large {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+.mascot-small {
+  align-self: center;
+}
+
 .hint {
   margin: 0;
   padding: 10px 12px;

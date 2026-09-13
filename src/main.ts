@@ -29,7 +29,7 @@ function formatExpressionForDisplay(expr: string): string {
 
 function renderHistory(entries: HistoryEntry[]): void {
   if (entries.length === 0) {
-    historyContent.innerHTML = '<p class="history-empty">No calculations yet</p>';
+    historyContent.innerHTML = '<p class="history-empty">Nothing here yet — go give something a try!</p>';
     return;
   }
   historyContent.innerHTML = '';

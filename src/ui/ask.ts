@@ -33,7 +33,7 @@ function renderError(message: string, suggestions: string[]): void {
 
   const label = document.createElement('div');
   label.className = 'ask-detail';
-  label.textContent = 'Try one of these:';
+  label.textContent = 'Here, try one of these instead:';
   resultEl.appendChild(label);
 
   const list = document.createElement('div');
