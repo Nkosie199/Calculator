@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta name="theme-color" content="#6236ff" />
+  <meta name="description" content="A fast, offline-first scientific calculator. No login, no tracking, nothing ever leaves your browser." />
+  <title>Calculator</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <button id="angleModeToggle" class="pill" type="button" aria-label="Toggle angle unit between degrees and radians"></button>
+      <div class="topbar-spacer"></div>
+      <button id="historyToggle" class="icon-button" type="button" aria-label="Show calculation history" aria-expanded="false" aria-controls="historyOverlay">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M13 3a9 9 0 1 0 8.94 10H19.9A7 7 0 1 1 13 5v4l5-4-5-4z" fill="currentColor"/></svg>
+      </button>
+      <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle light/dark theme">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36A5.4 5.4 0 0 1 12 3.1c-.46-.06-.1-.1 0-.1z" fill="currentColor"/></svg>
+      </button>
+    </header>
+
+    <div class="ask-bar">
+      <form id="askForm" class="ask-form" role="search">
+        <input
+          id="askInput"
+          type="text"
+          placeholder="Ask anything — derivative of x^2, 5 km in miles, solve x^2-4=0..."
+          aria-label="Ask a math question"
+          autocomplete="off"
+        />
+        <button class="pill" type="submit">Ask</button>
+      </form>
+      <div id="askResult" class="ask-result" hidden aria-live="polite"></div>
+    </div>
+
+    <nav class="mode-tabs" role="tablist" aria-label="Calculator mode">
+      <button class="mode-tab" data-mode="standard" role="tab" aria-selected="true" type="button">Standard</button>
+      <button class="mode-tab" data-mode="graph" role="tab" aria-selected="false" type="button">Graph</button>
+      <button class="mode-tab" data-mode="equations" role="tab" aria-selected="false" type="button">Equations</button>
+      <button class="mode-tab" data-mode="calculus" role="tab" aria-selected="false" type="button">Calculus</button>
+      <button class="mode-tab" data-mode="matrix" role="tab" aria-selected="false" type="button">Matrix</button>
+      <button class="mode-tab" data-mode="stats" role="tab" aria-selected="false" type="button">Stats</button>
+      <button class="mode-tab" data-mode="complex" role="tab" aria-selected="false" type="button">Complex</button>
+      <button class="mode-tab" data-mode="basen" role="tab" aria-selected="false" type="button">Base-N</button>
+      <button class="mode-tab" data-mode="units" role="tab" aria-selected="false" type="button">Units</button>
+      <button class="mode-tab" data-mode="date" role="tab" aria-selected="false" type="button">Date</button>
+    </nav>
+
+    <main id="calculator" class="mode-panel" data-mode="standard" aria-label="Calculator">
+      <div class="display-row">
+        <input id="display" type="text" readonly aria-live="polite" aria-label="Current calculation" value="0" />
+      </div>
+      <p id="errorMessage" class="error-message" role="alert"></p>
+
+      <div class="keypad" role="group" aria-label="Calculator buttons">
+        <button class="key key-mem" data-action="mc" type="button">MC</button>
+        <button class="key key-mem" data-action="mr" type="button">MR</button>
+        <button class="key key-mem" data-action="m-plus" type="button">M+</button>
+        <button class="key key-mem" data-action="m-minus" type="button">M&minus;</button>
+        <button class="key key-clear" data-action="clear" type="button">AC</button>
+
+        <button class="key key-fn" data-fn="sin" type="button">sin</button>
+        <button class="key key-fn" data-fn="cos" type="button">cos</button>
+        <button class="key key-fn" data-fn="tan" type="button">tan</button>
+        <button class="key key-fn" data-fn="log" type="button">log</button>
+        <button class="key key-fn" data-fn="ln" type="button">ln</button>
+
+        <button class="key key-fn" data-token="(" type="button">(</button>
+        <button class="key key-fn" data-token=")" type="button">)</button>
+        <button class="key key-fn" data-token="^" type="button">x<sup>y</sup></button>
+        <button class="key key-fn" data-fn="sqrt" type="button">&radic;</button>
+        <button class="key key-fn" data-token="!" type="button">n!</button>
+
+        <button class="key key-op" data-token="&#960;" type="button">&pi;</button>
+        <button class="key key-op" data-token="e" type="button">e</button>
+        <button class="key key-op" data-token="%" type="button">%</button>
+        <button class="key key-op key-back" data-action="backspace" type="button" aria-label="Delete last character">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-3.59 12.59L17 17l-3-3-3 3-1.41-1.41L12.59 12 9.59 9 11 7.59l3 3 3-3L18.41 9 15.41 12l3 3z" fill="currentColor"/></svg>
+        </button>
+        <button class="key key-op" data-token="/" type="button">&divide;</button>
+
+        <button class="key key-num" data-token="7" type="button">7</button>
+        <button class="key key-num" data-token="8" type="button">8</button>
+        <button class="key key-num" data-token="9" type="button">9</button>
+        <button class="key key-op" data-token="*" type="button">&times;</button>
+        <button class="key key-equals" data-action="equals" type="button" style="grid-row: span 4;">=</button>
+
+        <button class="key key-num" data-token="4" type="button">4</button>
+        <button class="key key-num" data-token="5" type="button">5</button>
+        <button class="key key-num" data-token="6" type="button">6</button>
+        <button class="key key-op" data-token="-" type="button">&minus;</button>
+
+        <button class="key key-num" data-token="1" type="button">1</button>
+        <button class="key key-num" data-token="2" type="button">2</button>
+        <button class="key key-num" data-token="3" type="button">3</button>
+        <button class="key key-op" data-token="+" type="button">+</button>
+
+        <button class="key key-num key-zero" data-token="0" type="button" style="grid-column: span 2;">0</button>
+        <button class="key key-num" data-token="." type="button">.</button>
+      </div>
+    </main>
+
+    <section class="mode-panel panel" data-mode="graph" hidden aria-label="Graph">
+      <div class="graph-functions" id="graphFunctions"></div>
+      <button id="graphAddFunction" class="pill" type="button">+ Add function</button>
+
+      <div class="form-row">
+        <label>X min <input id="graphXMin" type="number" value="-10" step="any" /></label>
+        <label>X max <input id="graphXMax" type="number" value="10" step="any" /></label>
+      </div>
+      <div class="form-row">
+        <label>Y min <input id="graphYMin" type="number" value="-10" step="any" /></label>
+        <label>Y max <input id="graphYMax" type="number" value="10" step="any" /></label>
+      </div>
+
+      <canvas id="graphCanvas" width="600" height="400" aria-label="Function plot"></canvas>
+      <p id="graphReadout" class="readout" aria-live="polite">Move over the graph to read values.</p>
+      <p id="graphError" class="error-message" role="alert"></p>
+
+      <button id="graphFindRoots" class="pill" type="button">Find roots in view</button>
+      <p id="graphRoots" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="equations" hidden aria-label="Equation solver">
+      <h2>Linear: ax + b = 0</h2>
+      <div class="form-row">
+        <label>a <input id="eqLinearA" type="number" value="1" step="any" /></label>
+        <label>b <input id="eqLinearB" type="number" value="0" step="any" /></label>
+        <button id="eqLinearSolve" class="pill" type="button">Solve</button>
+      </div>
+      <p id="eqLinearResult" class="readout"></p>
+
+      <h2>Quadratic: ax&sup2; + bx + c = 0</h2>
+      <div class="form-row">
+        <label>a <input id="eqQuadA" type="number" value="1" step="any" /></label>
+        <label>b <input id="eqQuadB" type="number" value="0" step="any" /></label>
+        <label>c <input id="eqQuadC" type="number" value="0" step="any" /></label>
+        <button id="eqQuadSolve" class="pill" type="button">Solve</button>
+      </div>
+      <p id="eqQuadResult" class="readout"></p>
+
+      <h2>Numeric root finder: f(x) = 0</h2>
+      <div class="form-row">
+        <label>f(x) <input id="eqRootFn" type="text" value="x^2 - 4" /></label>
+      </div>
+      <div class="form-row">
+        <label>Search min <input id="eqRootMin" type="number" value="-10" step="any" /></label>
+        <label>Search max <input id="eqRootMax" type="number" value="10" step="any" /></label>
+        <button id="eqRootSolve" class="pill" type="button">Find roots</button>
+      </div>
+      <p id="eqRootResult" class="readout"></p>
+
+      <h2>Linear system</h2>
+      <div class="form-row">
+        <label>Size
+          <select id="eqSystemSize">
+            <option value="2">2x2</option>
+            <option value="3">3x3</option>
+          </select>
+        </label>
+        <button id="eqSystemSolve" class="pill" type="button">Solve</button>
+      </div>
+      <div id="eqSystemGrid" class="matrix-grid"></div>
+      <p id="eqSystemResult" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="calculus" hidden aria-label="Calculus">
+      <h2>Differentiate</h2>
+      <div class="form-row">
+        <label>f(x) <input id="calcDiffFn" type="text" value="x^3 - 2x" /></label>
+        <label>Order <input id="calcDiffOrder" type="number" min="1" max="6" value="1" /></label>
+        <button id="calcDiffCompute" class="pill" type="button">Differentiate</button>
+      </div>
+      <p id="calcDiffError" class="error-message" role="alert"></p>
+      <p id="calcDiffResult" class="readout"></p>
+
+      <h2>Integrate</h2>
+      <div class="form-row">
+        <label>f(x) <input id="calcIntFn" type="text" value="3x^2 - 2x + 1" /></label>
+        <button id="calcIntCompute" class="pill" type="button">Integrate</button>
+      </div>
+      <p id="calcIntError" class="error-message" role="alert"></p>
+      <p id="calcIntResult" class="readout"></p>
+
+      <h2>Taylor / Maclaurin series</h2>
+      <div class="form-row">
+        <label>f(x) <input id="calcSeriesFn" type="text" value="sin(x)" /></label>
+        <label>Center (a) <input id="calcSeriesCenter" type="number" value="0" step="any" /></label>
+        <label>Terms <input id="calcSeriesTerms" type="number" min="1" max="12" value="6" /></label>
+        <button id="calcSeriesCompute" class="pill" type="button">Expand</button>
+      </div>
+      <p id="calcSeriesError" class="error-message" role="alert"></p>
+      <p id="calcSeriesResult" class="readout"></p>
+
+      <h2>Factor a polynomial</h2>
+      <div class="form-row">
+        <label>Polynomial in x <input id="calcFactorFn" type="text" value="x^2 - 5x + 6" /></label>
+        <button id="calcFactorCompute" class="pill" type="button">Factor</button>
+      </div>
+      <p id="calcFactorError" class="error-message" role="alert"></p>
+      <p id="calcFactorResult" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="matrix" hidden aria-label="Matrix calculator">
+      <div class="matrix-editor">
+        <h2>Matrix A</h2>
+        <div class="form-row">
+          <label>Rows <input id="matrixARows" type="number" min="1" max="6" value="2" /></label>
+          <label>Cols <input id="matrixACols" type="number" min="1" max="6" value="2" /></label>
+        </div>
+        <div id="matrixAGrid" class="matrix-grid"></div>
+      </div>
+
+      <div class="matrix-editor">
+        <h2>Matrix B</h2>
+        <div class="form-row">
+          <label>Rows <input id="matrixBRows" type="number" min="1" max="6" value="2" /></label>
+          <label>Cols <input id="matrixBCols" type="number" min="1" max="6" value="2" /></label>
+        </div>
+        <div id="matrixBGrid" class="matrix-grid"></div>
+      </div>
+
+      <div class="button-row">
+        <button class="pill" data-matrix-op="add" type="button">A + B</button>
+        <button class="pill" data-matrix-op="subtract" type="button">A - B</button>
+        <button class="pill" data-matrix-op="multiply" type="button">A &times; B</button>
+        <button class="pill" data-matrix-op="transposeA" type="button">A<sup>T</sup></button>
+        <button class="pill" data-matrix-op="transposeB" type="button">B<sup>T</sup></button>
+        <button class="pill" data-matrix-op="detA" type="button">det(A)</button>
+        <button class="pill" data-matrix-op="detB" type="button">det(B)</button>
+        <button class="pill" data-matrix-op="invA" type="button">A<sup>-1</sup></button>
+        <button class="pill" data-matrix-op="invB" type="button">B<sup>-1</sup></button>
+      </div>
+
+      <p id="matrixError" class="error-message" role="alert"></p>
+      <div id="matrixResult" class="matrix-grid matrix-grid-readonly"></div>
+    </section>
+
+    <section class="mode-panel panel" data-mode="stats" hidden aria-label="Statistics">
+      <h2>Data set</h2>
+      <textarea id="statsData" rows="3" placeholder="Enter numbers separated by commas, spaces, or new lines">2, 4, 4, 4, 5, 5, 7, 9</textarea>
+      <button id="statsCompute" class="pill" type="button">Compute</button>
+      <p id="statsError" class="error-message" role="alert"></p>
+      <dl id="statsResult" class="result-list"></dl>
+
+      <h2>Linear regression</h2>
+      <textarea id="regressionData" rows="3" placeholder="One x,y pair per line, e.g.&#10;0,1&#10;1,3&#10;2,5">0,1
+1,3
+2,5
+3,7</textarea>
+      <button id="regressionCompute" class="pill" type="button">Fit line</button>
+      <p id="regressionError" class="error-message" role="alert"></p>
+      <p id="regressionResult" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="complex" hidden aria-label="Complex numbers">
+      <div class="form-row">
+        <label>a (real) <input id="complexARe" type="number" value="1" step="any" /></label>
+        <label>b (imaginary) <input id="complexAIm" type="number" value="2" step="any" /></label>
+      </div>
+      <div class="form-row">
+        <label>Operation
+          <select id="complexOp">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">&times;</option>
+            <option value="divide">&divide;</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>c (real) <input id="complexBRe" type="number" value="3" step="any" /></label>
+        <label>d (imaginary) <input id="complexBIm" type="number" value="-1" step="any" /></label>
+      </div>
+      <button id="complexCompute" class="pill" type="button">Compute</button>
+      <p id="complexError" class="error-message" role="alert"></p>
+      <p id="complexResult" class="readout"></p>
+
+      <h2>Polar form of the first number</h2>
+      <p id="complexPolar" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="basen" hidden aria-label="Base-N converter">
+      <h2>Convert</h2>
+      <div class="form-row">
+        <label>Base
+          <select id="basenInputBase">
+            <option value="2">Binary</option>
+            <option value="8">Octal</option>
+            <option value="10" selected>Decimal</option>
+            <option value="16">Hexadecimal</option>
+          </select>
+        </label>
+        <label>Value <input id="basenInput" type="text" value="255" /></label>
+      </div>
+      <p id="basenError" class="error-message" role="alert"></p>
+      <dl id="basenResult" class="result-list"></dl>
+
+      <h2>Bitwise (32-bit signed)</h2>
+      <div class="form-row">
+        <label>A <input id="basenBitwiseA" type="text" value="12" /></label>
+        <label>Operation
+          <select id="basenBitwiseOp">
+            <option value="and">AND</option>
+            <option value="or">OR</option>
+            <option value="xor">XOR</option>
+            <option value="not">NOT (A only)</option>
+            <option value="shl">A &lt;&lt; B</option>
+            <option value="shr">A &gt;&gt; B (arithmetic)</option>
+            <option value="shru">A &gt;&gt;&gt; B (logical)</option>
+          </select>
+        </label>
+        <label>B <input id="basenBitwiseB" type="text" value="10" /></label>
+        <button id="basenBitwiseCompute" class="pill" type="button">Compute</button>
+      </div>
+      <p id="basenBitwiseError" class="error-message" role="alert"></p>
+      <dl id="basenBitwiseResult" class="result-list"></dl>
+    </section>
+
+    <section class="mode-panel panel" data-mode="units" hidden aria-label="Unit converter">
+      <div class="form-row">
+        <label>Category
+          <select id="unitsCategory">
+            <option value="length">Length</option>
+            <option value="mass">Mass</option>
+            <option value="volume">Volume</option>
+            <option value="speed">Speed</option>
+            <option value="data">Data size</option>
+            <option value="time">Time</option>
+            <option value="temperature">Temperature</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-row">
+        <label>Value <input id="unitsValue" type="number" value="1" step="any" /></label>
+      </div>
+      <div class="form-row">
+        <label>From <select id="unitsFrom"></select></label>
+        <label>To <select id="unitsTo"></select></label>
+      </div>
+      <p id="unitsError" class="error-message" role="alert"></p>
+      <p id="unitsResult" class="readout"></p>
+    </section>
+
+    <section class="mode-panel panel" data-mode="date" hidden aria-label="Date calculator">
+      <h2>Days between two dates</h2>
+      <div class="form-row">
+        <label>From <input id="dateBetweenA" type="date" /></label>
+        <label>To <input id="dateBetweenB" type="date" /></label>
+      </div>
+      <p id="dateBetweenResult" class="readout"></p>
+
+      <h2>Add duration to a date</h2>
+      <div class="form-row">
+        <label>Start date <input id="dateAddBase" type="date" /></label>
+      </div>
+      <div class="form-row">
+        <label>Years <input id="dateAddYears" type="number" value="0" /></label>
+        <label>Months <input id="dateAddMonths" type="number" value="0" /></label>
+        <label>Weeks <input id="dateAddWeeks" type="number" value="0" /></label>
+        <label>Days <input id="dateAddDays" type="number" value="0" /></label>
+      </div>
+      <button id="dateAddCompute" class="pill" type="button">Add</button>
+      <p id="dateAddResult" class="readout"></p>
+    </section>
+
+    <div id="historyOverlay" class="overlay" hidden>
+      <div class="overlay-header">
+        <h2>History</h2>
+        <button id="clearHistoryButton" class="pill" type="button">Clear</button>
+        <button id="closeHistoryButton" class="icon-button" type="button" aria-label="Close history">&times;</button>
+      </div>
+      <div id="historyContent" class="overlay-content"></div>
+    </div>
+
+    <footer class="app-footer">
+      <a href="/privacy.html">Privacy</a>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
