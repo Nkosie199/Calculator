@@ -1,0 +1,5 @@
+# Once calculator.mynger.com is added as a custom domain in Netlify and its DNS has propagated,
+# send anyone still on the old *.netlify.app URL (old bookmarks, old links) to the new domain.
+# Scoped to the old host specifically — not a bare "/*" — so this can't ever redirect the new
+# domain to itself.
+https://mydeepcalculator.netlify.app/*  https://calculator.mynger.com/:splat  301!
