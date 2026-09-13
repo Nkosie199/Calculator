@@ -11,21 +11,39 @@ function setText(id: string, value: string): void {
   (document.getElementById(id) as HTMLElement).textContent = value;
 }
 
+/**
+ * "September 13, 2026" instead of the raw "2026-09-13" the <input type="date"> gives us.
+ * timeZone: 'UTC' matters here — our dates are stored as UTC midnight (see core/dates.ts), and
+ * without pinning the timezone, toLocaleDateString would render in the visitor's local time and
+ * could show the wrong day (e.g. one day earlier for anyone west of UTC).
+ */
+function formatFriendly(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+}
+
 function computeBetween(): void {
   const a = parseDateInput('dateBetweenA');
   const b = parseDateInput('dateBetweenB');
   if (!a || !b) {
-    setText('dateBetweenResult', 'Pick both dates');
+    setText('dateBetweenResult', 'Pick both dates above to see the gap between them.');
     return;
   }
   const days = daysBetween(a, b);
-  setText('dateBetweenResult', `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} ${days >= 0 ? 'after' : 'before'} the first date`);
+  if (days === 0) {
+    setText('dateBetweenResult', "That's the same day! 0 days apart.");
+    return;
+  }
+  const [earlier, later] = days > 0 ? [a, b] : [b, a];
+  setText(
+    'dateBetweenResult',
+    `${Math.abs(days)} day${Math.abs(days) === 1 ? '' : 's'} — from ${formatFriendly(earlier)} to ${formatFriendly(later)}.`,
+  );
 }
 
 function computeAdd(): void {
   const base = parseDateInput('dateAddBase');
   if (!base) {
-    setText('dateAddResult', 'Pick a start date');
+    setText('dateAddResult', 'Pick a start date above first.');
     return;
   }
   const years = Number((document.getElementById('dateAddYears') as HTMLInputElement).value) || 0;
@@ -34,8 +52,7 @@ function computeAdd(): void {
   const days = Number((document.getElementById('dateAddDays') as HTMLInputElement).value) || 0;
 
   const result = addDuration(base, { years, months, weeks, days });
-  const iso = result.toISOString().slice(0, 10);
-  setText('dateAddResult', `${iso} (${dayOfWeek(result)})`);
+  setText('dateAddResult', `${dayOfWeek(result)}, ${formatFriendly(result)}`);
 }
 
 let initialized = false;

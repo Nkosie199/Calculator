@@ -1,5 +1,6 @@
 import { answerQuery, type QueryResult } from '../core/query';
 import { getAngleMode } from './angleMode';
+import { addHistoryEntry } from './history';
 import { switchToMode } from './modes';
 import { setPrimaryFunction } from './modes/graph';
 
@@ -52,11 +53,12 @@ function renderError(message: string, suggestions: string[]): void {
   resultEl.appendChild(list);
 }
 
-function render(result: QueryResult): void {
+function render(question: string, result: QueryResult): void {
   resultEl.hidden = false;
 
   if (result.kind === 'answer') {
     renderAnswer(result.title, result.value, result.detail);
+    addHistoryEntry(question, result.value, 'ask');
     return;
   }
 
@@ -64,6 +66,7 @@ function render(result: QueryResult): void {
     switchToMode(result.mode);
     if (result.mode === 'graph') setPrimaryFunction(result.expression);
     renderAnswer('Plotted', `${result.expression} — see the Graph tab`);
+    addHistoryEntry(question, `plotted ${result.expression}`, 'ask');
     return;
   }
 
@@ -76,7 +79,14 @@ function submit(): void {
     resultEl.hidden = true;
     return;
   }
-  render(answerQuery(value, getAngleMode()));
+  render(value, answerQuery(value, getAngleMode()));
+}
+
+/** Re-runs a question through the Ask bar (e.g. when a history entry is clicked) and scrolls it into view. */
+export function askQuestion(question: string): void {
+  askInput.value = question;
+  submit();
+  askInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 let initialized = false;

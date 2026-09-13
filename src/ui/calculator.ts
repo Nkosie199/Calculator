@@ -144,7 +144,7 @@ export class CalculatorState {
     try {
       const result = calculate(this.expression, this.angleMode);
       const formatted = formatResult(result);
-      this.history = addHistoryEntry(this.history, this.expression, formatted);
+      this.history = addHistoryEntry(this.expression, formatted);
       this.expression = formatted;
       this.errorMessage = null;
       this.justEvaluated = true;

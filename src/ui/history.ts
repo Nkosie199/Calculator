@@ -1,10 +1,14 @@
 const STORAGE_KEY = 'calc:history';
 const MAX_ENTRIES = 200;
 
+export type HistorySource = 'standard' | 'ask';
+
 export interface HistoryEntry {
   expression: string;
   result: string;
   timestamp: number;
+  /** Where this entry came from — determines how clicking it in the overlay recalls it. Missing/older entries default to 'standard'. */
+  source?: HistorySource;
 }
 
 export function loadHistory(): HistoryEntry[] {
@@ -33,8 +37,14 @@ function persist(entries: HistoryEntry[]): void {
   }
 }
 
-export function addHistoryEntry(entries: HistoryEntry[], expression: string, result: string): HistoryEntry[] {
-  const next = [{ expression, result, timestamp: Date.now() }, ...entries].slice(0, MAX_ENTRIES);
+/**
+ * Appends an entry and persists it. Always re-reads from storage first (rather than trusting a
+ * caller-held copy) so that two parts of the app writing history in close succession — e.g. the
+ * Ask bar and the Standard keypad — can never clobber each other's entries.
+ */
+export function addHistoryEntry(expression: string, result: string, source: HistorySource = 'standard'): HistoryEntry[] {
+  const current = loadHistory();
+  const next = [{ expression, result, timestamp: Date.now(), source }, ...current].slice(0, MAX_ENTRIES);
   persist(next);
   return next;
 }

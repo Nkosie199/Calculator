@@ -1,7 +1,7 @@
-import { initAskBar } from './ui/ask';
+import { askQuestion, initAskBar } from './ui/ask';
 import { CalculatorState } from './ui/calculator';
-import type { HistoryEntry } from './ui/history';
-import { getCurrentMode, initModeSwitcher } from './ui/modes';
+import { loadHistory, type HistoryEntry } from './ui/history';
+import { getCurrentMode, initModeSwitcher, switchToMode } from './ui/modes';
 import { initTheme, toggleTheme, type Theme } from './ui/theme';
 import { initWelcomeBanner } from './ui/welcome';
 
@@ -49,9 +49,14 @@ function renderHistory(entries: HistoryEntry[]): void {
 
     row.append(expr, result);
     row.addEventListener('click', () => {
-      state.recallHistoryEntry(entry);
       closeHistory();
-      render();
+      if (entry.source === 'ask') {
+        askQuestion(entry.expression);
+      } else {
+        state.recallHistoryEntry(entry);
+        switchToMode('standard');
+        render();
+      }
     });
     historyContent.appendChild(row);
   }
@@ -70,7 +75,9 @@ function render(): void {
 }
 
 function openHistory(): void {
-  renderHistory(state.getSnapshot().history);
+  // Always re-read from storage rather than the CalculatorState's cached copy — the Ask bar
+  // (and potentially other modes) write history entries directly, so the cache can be stale.
+  renderHistory(loadHistory());
   historyOverlay.hidden = false;
   historyToggle.setAttribute('aria-expanded', 'true');
 }
