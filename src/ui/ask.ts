@@ -89,6 +89,14 @@ export function initAskBar(): void {
   askInput = document.getElementById('askInput') as HTMLInputElement;
   resultEl = document.getElementById('askResult') as HTMLDivElement;
 
+  document.querySelectorAll<HTMLButtonElement>('.ask-examples .chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      askInput.value = chip.dataset.example ?? chip.textContent ?? '';
+      submit();
+      askInput.focus();
+    });
+  });
+
   askForm.addEventListener('submit', (event) => {
     event.preventDefault();
     submit();

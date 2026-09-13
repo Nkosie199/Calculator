@@ -40,6 +40,16 @@
   box-sizing: border-box;
 }
 
+/*
+ * The HTML `hidden` attribute must always win over a component's own `display: flex/grid`
+ * (e.g. .panel, .welcome-banner) — otherwise an element marked hidden keeps rendering at its
+ * normal size, just pushed further down the page. Global + !important because this is enforcing
+ * hidden's actual contract, not overriding arbitrary component styling.
+ */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -120,6 +130,56 @@ body {
   padding: 16px;
 }
 
+.app-tagline {
+  margin: 0;
+  padding: 0 4px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, var(--accent), #9b7bff);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 24px var(--shadow);
+}
+
+.welcome-banner p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.welcome-banner .pill {
+  align-self: flex-start;
+  background: #ffffff;
+  color: var(--accent);
+}
+
+.hint {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hint code {
+  background: var(--key-op-bg);
+  color: var(--key-op-text);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+}
+
 .ask-form {
   display: flex;
   gap: 8px;
@@ -139,6 +199,44 @@ body {
 
 .ask-form button {
   flex: none;
+}
+
+.ask-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ask-examples-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.chip {
+  border: none;
+  border-radius: 999px;
+  background: var(--key-op-bg);
+  color: var(--key-op-text);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip:hover {
+  filter: brightness(0.95);
+}
+
+:root[data-theme='dark'] .chip:hover {
+  filter: brightness(1.2);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .ask-result {
@@ -507,10 +605,6 @@ body {
   display: flex;
   flex-direction: column;
   padding: 20px;
-}
-
-.overlay[hidden] {
-  display: none;
 }
 
 .overlay-header {

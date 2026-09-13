@@ -3,9 +3,11 @@ import { CalculatorState } from './ui/calculator';
 import type { HistoryEntry } from './ui/history';
 import { getCurrentMode, initModeSwitcher } from './ui/modes';
 import { initTheme, toggleTheme, type Theme } from './ui/theme';
+import { initWelcomeBanner } from './ui/welcome';
 
 initModeSwitcher();
 initAskBar();
+initWelcomeBanner();
 
 const state = new CalculatorState();
 let theme: Theme = initTheme();
