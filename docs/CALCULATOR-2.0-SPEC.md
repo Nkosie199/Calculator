@@ -1,9 +1,16 @@
 # Calculator 2.0 — Product & Technical Spec
 
-Status: **DRAFT — awaiting approval**
+Status: **Implementation complete (Phases 1-4), pending domain migration**
 Owner: Nkosi
 Target domain: `calculator.mynger.com`
-Current state: static HTML/CSS/JS app (`public/`), deployed to Netlify at a `*.netlify.app` URL, using `math.js` client-side with a regex-sanitized `math.evaluate()` call.
+Original state (superseded): static HTML/CSS/JS app (`public/`), deployed to Netlify at a `*.netlify.app` URL, using `math.js` client-side with a regex-sanitized `math.evaluate()` call.
+
+All four phases in §4 are built, tested (243 automated tests), and verified in-browser against the
+production static build — see the [README](../README.md) for the current feature summary. What's
+left is entirely outside the repo: the Netlify custom-domain + DNS steps in §9, which need your
+Netlify and DNS provider accounts and are yours to run (see the chat for the exact steps). The
+privacy contact (§8) stays as your Gmail address per your confirmation; PWA icons (§6.4) are now
+real PNGs, not SVG-only.
 
 ---
 
