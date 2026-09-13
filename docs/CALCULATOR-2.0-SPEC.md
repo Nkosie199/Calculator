@@ -148,11 +148,11 @@ I'll draft the actual `/privacy` page copy during implementation once you approv
 
 ## 9. Domain migration: Netlify subdomain → `calculator.mynger.com`
 
-1. Keep deploying the *same* Netlify site (no need to recreate it) — add `calculator.mynger.com` as a custom domain in Netlify's site settings.
-2. Add a `CNAME` (or `ALIAS`/`ANAME` at the zone apex if ever needed, not applicable for a subdomain) record at your DNS provider pointing `calculator` → the Netlify apex domain Netlify gives you (typically `<sitename>.netlify.app` or their load-balancer target) — same pattern presumably already used for your other `*.mynger.com` apps.
+1. Keep deploying the *same* Netlify site (no need to recreate it, old URL was `mydeepcalculator.netlify.app`) — add `calculator.mynger.com` as a custom domain in Netlify's site settings.
+2. Add a `CNAME` record at Cloudflare (the DNS provider for `mynger.com`) pointing `calculator` → the Netlify target Netlify gives you (typically `<sitename>.netlify.app`) — same pattern as the other `*.mynger.com` apps. Set it **DNS only** (grey cloud, not the orange "Proxied" cloud) so Netlify — not Cloudflare — terminates TLS and can issue/validate the cert; a proxied record breaks Netlify's automatic cert issuance.
 3. Netlify auto-provisions a Let's Encrypt cert for the custom domain once DNS resolves.
-4. Set the old `*.netlify.app` URL to redirect (301) to `calculator.mynger.com` via a `_redirects` file (`/* https://calculator.mynger.com/:splat 301!`) or Netlify's domain-alias redirect setting, so old links/bookmarks keep working.
-5. You then redeploy and hit the new domain directly to confirm the response is plain static files (no server round-trip beyond Netlify's static host) — e.g. check response headers show Netlify's static CDN, and there's no serverless function invoked in the request waterfall.
+4. Done — `public/_redirects` already ships a 301 from `mydeepcalculator.netlify.app` to `calculator.mynger.com`, scoped to that specific old host (not a bare `/*`) so it can never redirect the new domain to itself.
+5. You then hit the new domain directly to confirm the response is plain static files (no server round-trip beyond Netlify's static host) — e.g. check response headers show Netlify's static CDN, and there's no serverless function invoked in the request waterfall.
 
 ## 10. Migration plan for the existing app
 
