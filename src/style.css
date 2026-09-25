@@ -151,12 +151,26 @@ body {
   padding: 16px;
 }
 
+.mode-tabs,
+.mode-panel {
+  order: 1;
+}
+
+.welcome-banner {
+  order: 2;
+}
+
 .app-tagline {
+  order: 3;
   margin: 0;
   padding: 0 4px;
   font-size: 13px;
   text-align: center;
   color: var(--text-muted);
+}
+
+.ask-bar {
+  order: 4;
 }
 
 .welcome-banner {
@@ -716,6 +730,7 @@ body {
 }
 
 .app-footer {
+  order: 5;
   text-align: center;
   padding: 4px;
 }
@@ -728,6 +743,12 @@ body {
 
 .app-footer a:hover {
   text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  #calculator > .hint {
+    display: none;
+  }
 }
 
 @media (max-width: 360px) {

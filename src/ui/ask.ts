@@ -112,4 +112,9 @@ export function initAskBar(): void {
     event.preventDefault();
     submit();
   });
+
+  document.getElementById('askJump')?.addEventListener('click', () => {
+    askInput.scrollIntoView({ block: 'center' });
+    askInput.focus({ preventScroll: true });
+  });
 }
