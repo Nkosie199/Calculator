@@ -1,6 +1,6 @@
 # Calculator
 
-A fast, offline-first scientific calculator. Static site, no login, no tracking, deterministic
+A fast, offline-first scientific calculator. Static site, no login, anonymous Google Analytics visit stats only, deterministic
 output. See [docs/CALCULATOR-2.0-SPEC.md](docs/CALCULATOR-2.0-SPEC.md) for the full product/technical spec.
 
 ## Stack
