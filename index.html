@@ -4,11 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
   <meta name="theme-color" content="#6236ff" />
-  <meta name="description" content="A fast, offline-first scientific calculator. No login, no tracking, nothing ever leaves your browser." />
+  <meta name="description" content="A fast, offline-first scientific calculator. No login, and your calculations never leave your browser." />
   <title>Calculator</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
   <link rel="stylesheet" href="/src/style.css" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KDGHSW0CJH"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KDGHSW0CJH', { allow_google_signals: false, allow_ad_personalization_signals: false });
+  </script>
 </head>
 <body>
   <div id="app">

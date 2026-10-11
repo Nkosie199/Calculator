@@ -13,7 +13,7 @@ export default defineConfig({
       manifest: {
         name: 'Calculator',
         short_name: 'Calculator',
-        description: 'A fast, offline-first scientific calculator. No login, no tracking.',
+        description: 'A fast, offline-first scientific calculator. No login.',
         start_url: '/',
         display: 'standalone',
         background_color: '#e9e9ee',
