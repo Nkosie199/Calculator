@@ -2,7 +2,7 @@ import { CalcError, compileFunctionOfX } from '../../core/parser';
 import { findRoots } from '../../core/equations';
 import { getAngleMode } from '../angleMode';
 
-const COLORS = ['#6236ff', '#ff6b6b', '#2fbf71', '#ffa62b', '#00b8d9', '#d946ef'];
+const COLORS = ['#65a30d', '#ff6b6b', '#2fbf71', '#ffa62b', '#00b8d9', '#d946ef'];
 
 interface FunctionRow {
   id: number;
