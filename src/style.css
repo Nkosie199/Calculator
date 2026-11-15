@@ -1,16 +1,20 @@
+/* Brand colours are Ringer's Calculator palette (BC-3): lime primary, slate secondary, cyan tertiary. */
 :root {
-  --bg: #e9e9ee;
+  --bg: #f5f6fa;
   --surface: #ffffff;
-  --surface-alt: #f4f3fb;
+  --surface-alt: #eceef4;
   --text: #1c1c22;
-  --text-muted: #6b6b76;
-  --accent: #6236ff;
-  --accent-contrast: #ffffff;
+  --text-muted: #5b6170;
+  /* Fills and outlines; text on a lime fill is dark for 4.5:1 */
+  --accent: #65a30d;
+  --accent-contrast: #111827;
+  --secondary: #475569;
+  --tertiary: #0e7490;
   --key-bg: #ffffff;
-  --key-text: #6236ff;
-  --key-op-bg: #efeaff;
-  --key-op-text: #6236ff;
-  --key-mem-bg: #e4dcff;
+  --key-text: #4d7c0f;
+  --key-op-bg: color-mix(in srgb, #65a30d 8%, #ffffff);
+  --key-op-text: #4d7c0f;
+  --key-mem-bg: color-mix(in srgb, #65a30d 10%, #ffffff);
   --error: #d1364b;
   --shadow: rgba(0, 0, 0, 0.12);
   --overlay-bg: rgba(20, 18, 30, 0.82);
@@ -20,29 +24,30 @@
   --overlay-border: rgba(255, 255, 255, 0.12);
   --overlay-hover: rgba(255, 255, 255, 0.06);
   /*
-   * Fixed (not redefined per theme) — used wherever small text sits directly on a purple fill
-   * or a white/light surface. --accent is deliberately lighter in dark mode so it reads well as
-   * large fills and outlines there, but that same lighter purple fails WCAG AA (4.5:1) as a
-   * background under small white text, or as small text on a light surface. --accent-strong is
-   * verified >8:1 against white in both directions, so it's the one to use for that specific job.
+   * Fixed (not redefined per theme): lime's light-mode text shade, for small text on a light
+   * surface and for fills under white text. It is 5:1 against white in both directions; the
+   * lighter --accent fails that in either mode.
    */
-  --accent-strong: #4a1fd6;
+  --accent-strong: #4d7c0f;
+  --on-accent-strong: #ffffff;
   color-scheme: light;
 }
 
 :root[data-theme='dark'] {
-  --bg: #17161d;
-  --surface: #201f29;
-  --surface-alt: #2a2836;
+  --bg: #050608;
+  --surface: #0b0d12;
+  --surface-alt: #13161e;
   --text: #f1f0f5;
-  --text-muted: #a3a1af;
-  --accent: #8b6bff;
-  --accent-contrast: #ffffff;
-  --key-bg: #2a2836;
-  --key-text: #cabfff;
-  --key-op-bg: #362f52;
-  --key-op-text: #cabfff;
-  --key-mem-bg: #362f52;
+  --text-muted: #a3a7b5;
+  --accent: #a3e635;
+  --accent-contrast: #111827;
+  --secondary: #94a3b8;
+  --tertiary: #22d3ee;
+  --key-bg: #13161e;
+  --key-text: #a3e635;
+  --key-op-bg: color-mix(in srgb, #a3e635 16%, #0b0d12);
+  --key-op-text: #a3e635;
+  --key-mem-bg: color-mix(in srgb, #a3e635 24%, #0b0d12);
   --error: #ff6b81;
   --shadow: rgba(0, 0, 0, 0.4);
   --overlay-bg: rgba(10, 9, 15, 0.9);
@@ -174,11 +179,9 @@ body {
 }
 
 .welcome-banner {
-  /* Both stops use --accent-strong-family purples (verified >6:1 against white text at every
-     point in between), not the theme's --accent, which is deliberately lighter in dark mode and
-     would drop white text below WCAG AA here. */
-  background: linear-gradient(135deg, var(--accent-strong), #6236ff);
-  color: #ffffff;
+  /* Both stops are the lime text shade or darker, so white text stays above 4.5:1 throughout. */
+  background: linear-gradient(135deg, var(--accent-strong), color-mix(in srgb, var(--accent-strong) 80%, #000));
+  color: var(--on-accent-strong);
   border-radius: 16px;
   padding: 16px 18px;
   display: flex;
@@ -367,7 +370,7 @@ body {
   /* --accent-strong, not --accent: at 13px/600 this text is too small to qualify for the relaxed
      "large text" contrast threshold, and dark mode's lighter --accent fails the normal-text one. */
   background: var(--accent-strong);
-  color: var(--accent-contrast);
+  color: var(--on-accent-strong);
 }
 
 .mode-tab:focus-visible {
