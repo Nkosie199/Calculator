@@ -5,9 +5,8 @@
   --surface-alt: #eceef4;
   --text: #1c1c22;
   --text-muted: #5b6170;
-  /* Fills and outlines; text on a lime fill is dark for 4.5:1 */
+  /* Outlines and illustration; fills under text use --accent-strong */
   --accent: #65a30d;
-  --accent-contrast: #111827;
   --secondary: #475569;
   --tertiary: #0e7490;
   --key-bg: #ffffff;
@@ -40,7 +39,6 @@
   --text: #f1f0f5;
   --text-muted: #a3a7b5;
   --accent: #a3e635;
-  --accent-contrast: #111827;
   --secondary: #94a3b8;
   --tertiary: #22d3ee;
   --key-bg: #13161e;
@@ -656,8 +654,8 @@ body {
 }
 
 .key-equals {
-  background: var(--accent);
-  color: var(--accent-contrast);
+  background: var(--accent-strong);
+  color: var(--on-accent-strong);
   font-size: 22px;
 }
 
