@@ -1,6 +1,6 @@
 {
   "name": "calculator",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A fast, offline-first scientific calculator. Static site, no login, deterministic output.",
   "type": "module",
   "scripts": {

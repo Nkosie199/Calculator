@@ -64,13 +64,8 @@ function syntheticDivide(desc: number[], root: number): number[] {
   return result;
 }
 
-/**
- * Factors a single-variable polynomial with a monic-friendly method: extract factors of the
- * variable itself, then repeatedly pull out rational roots via the rational root theorem and
- * synthetic division, falling back to the quadratic formula for the final degree-2 remainder.
- * Only handles integer-ish coefficients for degree 3+ (the quadratic/linear/constant cases work
- * for any real coefficients).
- */
+// Rational roots with synthetic division, then the quadratic formula for the last degree-2 part.
+// Degree 3+ needs integer-ish coefficients.
 export function factor(node: AstNode, varName = 'x'): FactorResult {
   const expanded = expand(node, varName);
   let coeffs = toCoefficients(expanded, varName); // ascending

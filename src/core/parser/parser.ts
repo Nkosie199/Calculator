@@ -110,11 +110,7 @@ class Parser {
     return this.parseImplicitProduct();
   }
 
-  /**
-   * A chain of one or more "power units" placed side by side with no explicit operator,
-   * e.g. "2pi", "3(4+5)", "2sin(30)pi". Each unit binds its own exponent/postfix first, so
-   * "2pi^2" parses as 2*(pi^2), matching standard math notation rather than (2*pi)^2.
-   */
+  // Side-by-side units with no operator ("2pi", "3(4+5)"); each binds its own exponent, so "2pi^2" is 2*(pi^2).
   private parseImplicitProduct(): AstNode {
     let node = this.parsePowerUnit();
     while (this.startsImplicitFactor()) {

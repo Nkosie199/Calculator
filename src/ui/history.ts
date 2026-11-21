@@ -37,11 +37,7 @@ function persist(entries: HistoryEntry[]): void {
   }
 }
 
-/**
- * Appends an entry and persists it. Always re-reads from storage first (rather than trusting a
- * caller-held copy) so that two parts of the app writing history in close succession — e.g. the
- * Ask bar and the Standard keypad — can never clobber each other's entries.
- */
+// Re-reads storage first so the Ask bar and the keypad writing in quick succession never clobber each other.
 export function addHistoryEntry(expression: string, result: string, source: HistorySource = 'standard'): HistoryEntry[] {
   const current = loadHistory();
   const next = [{ expression, result, timestamp: Date.now(), source }, ...current].slice(0, MAX_ENTRIES);

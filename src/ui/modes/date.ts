@@ -11,12 +11,7 @@ function setText(id: string, value: string): void {
   (document.getElementById(id) as HTMLElement).textContent = value;
 }
 
-/**
- * "September 13, 2026" instead of the raw "2026-09-13" the <input type="date"> gives us.
- * timeZone: 'UTC' matters here — our dates are stored as UTC midnight (see core/dates.ts), and
- * without pinning the timezone, toLocaleDateString would render in the visitor's local time and
- * could show the wrong day (e.g. one day earlier for anyone west of UTC).
- */
+// timeZone UTC: dates are stored as UTC midnight, so local time would show the previous day west of UTC.
 function formatFriendly(date: Date): string {
   return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 }
