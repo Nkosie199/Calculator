@@ -48,12 +48,7 @@ export interface RootFindOptions {
   tolerance?: number;
 }
 
-/**
- * Numerically finds real roots of an arbitrary continuous function over [min, max] by scanning
- * for sign changes and bisecting each bracket. Deterministic (fixed iteration count), no
- * randomness. May miss roots that don't cross zero (e.g. a root that only touches zero) or
- * multiple roots inside one scan interval — increase `steps` for a finer scan.
- */
+// Scans for sign changes and bisects each bracket. Misses roots that only touch zero; raise `steps` for finer scans.
 export function findRoots(f: (x: number) => number, options: RootFindOptions): number[] {
   const { min, max, steps = 200, tolerance = 1e-10 } = options;
   if (min >= max) {

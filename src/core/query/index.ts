@@ -166,11 +166,7 @@ function handleUnitConversion(valueStr: string, fromPhrase: string, toPhrase: st
 
 const UNIT_WORD = '[a-zA-Z/]+(?:\\s+[a-zA-Z/]+)?';
 
-/**
- * Matches `input` against a fixed, documented grammar of query patterns — never an AI model, so the
- * same input always produces the same answer. Falls back to evaluating `input` as a plain expression,
- * then to a helpful "unsupported" message listing example queries.
- */
+// A fixed grammar, never an AI model, so the same input always gets the same answer.
 export function answerQuery(rawInput: string, angleMode: AngleMode = 'deg'): QueryResult {
   const input = rawInput.trim();
   if (input === '') return fail('Type something to ask.');

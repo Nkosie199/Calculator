@@ -9,11 +9,7 @@ export interface SeriesTerm {
   power: number;
 }
 
-/**
- * Computes the Taylor series of `node` around x = center, to `numTerms` terms (powers 0..numTerms-1),
- * by repeated symbolic differentiation evaluated numerically at the center. A Maclaurin series is
- * just the center = 0 case.
- */
+// Powers 0..numTerms-1 by repeated symbolic differentiation; Maclaurin is center = 0.
 export function taylorSeries(node: AstNode, varName = 'x', center = 0, numTerms = 6, angleMode: AngleMode = 'rad'): SeriesTerm[] {
   if (!Number.isInteger(numTerms) || numTerms < 1) {
     throw new CalcError('invalid-input', 'The number of terms must be a positive integer');

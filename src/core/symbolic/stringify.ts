@@ -1,11 +1,6 @@
 import type { AstNode } from '../parser/ast';
 
-/**
- * Converts an AST back into a re-parseable expression string. Favors always-correct
- * parenthesization over the fewest possible parens (e.g. it will sometimes print
- * "a+(b+c)" where "a+b+c" would also be valid) — but it never omits a paren that
- * changes the meaning.
- */
+// Prefers safe parentheses over the fewest ("a+(b+c)"), but never drops one that changes the meaning.
 export function stringify(node: AstNode): string {
   return render(node, 0);
 }
